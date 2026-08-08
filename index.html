@@ -1,0 +1,2166 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXORA — Game Login</title>
+
+<!-- Supabase -->
+<script src="https://rvzguquaznbsuxvytfyz.supabase.co"></script>
+
+<style>
+
+/* ================================
+   RESET
+================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:#080b12;
+    color:white;
+}
+
+/* ================================
+   BACKGROUND
+================================ */
+
+.game-bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0,190,255,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(145,0,255,.16),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #070910,
+            #0c1220 50%,
+            #080910
+        );
+}
+
+.grid{
+    position:absolute;
+    inset:-50%;
+    width:200%;
+    height:200%;
+
+    opacity:.18;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        );
+
+    background-size:55px 55px;
+
+    transform:perspective(500px) rotateX(60deg);
+
+    animation:gridMove 12s linear infinite;
+}
+
+@keyframes gridMove{
+
+    from{
+        transform:
+            perspective(500px)
+            rotateX(60deg)
+            translateY(0);
+    }
+
+    to{
+        transform:
+            perspective(500px)
+            rotateX(60deg)
+            translateY(55px);
+    }
+}
+
+/* ================================
+   PARTICLES
+================================ */
+
+.particles{
+    position:absolute;
+    inset:0;
+}
+
+.particle{
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.9);
+
+    animation:
+        floatParticle
+        linear
+        infinite;
+}
+
+.particle:nth-child(1){
+    left:8%;
+    top:80%;
+    animation-duration:8s;
+}
+
+.particle:nth-child(2){
+    left:18%;
+    top:30%;
+    animation-duration:11s;
+}
+
+.particle:nth-child(3){
+    left:30%;
+    top:75%;
+    animation-duration:9s;
+}
+
+.particle:nth-child(4){
+    left:45%;
+    top:15%;
+    animation-duration:12s;
+}
+
+.particle:nth-child(5){
+    left:60%;
+    top:85%;
+    animation-duration:10s;
+}
+
+.particle:nth-child(6){
+    left:72%;
+    top:35%;
+    animation-duration:7s;
+}
+
+.particle:nth-child(7){
+    left:85%;
+    top:70%;
+    animation-duration:13s;
+}
+
+.particle:nth-child(8){
+    left:92%;
+    top:20%;
+    animation-duration:9s;
+}
+
+@keyframes floatParticle{
+
+    0%{
+        transform:translateY(80px);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    80%{
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(-500px);
+        opacity:0;
+    }
+}
+
+/* ================================
+   DECORATIVE BLOCKS
+================================ */
+
+.block{
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    border:
+        2px solid
+        rgba(255,255,255,.12);
+
+    background:
+        rgba(255,255,255,.025);
+
+    backdrop-filter:blur(4px);
+
+    animation:
+        cubeFloat
+        7s
+        ease-in-out
+        infinite;
+}
+
+.block.one{
+    top:13%;
+    left:10%;
+    transform:rotate(20deg);
+}
+
+.block.two{
+    bottom:12%;
+    right:10%;
+
+    width:110px;
+    height:110px;
+
+    animation-delay:2s;
+
+    transform:rotate(35deg);
+}
+
+.block.three{
+    top:18%;
+    right:17%;
+
+    width:45px;
+    height:45px;
+
+    animation-delay:4s;
+}
+
+@keyframes cubeFloat{
+
+    0%,100%{
+        margin-top:0;
+        rotate:0deg;
+    }
+
+    50%{
+        margin-top:-25px;
+        rotate:15deg;
+    }
+}
+
+/* ================================
+   MAIN
+================================ */
+
+.wrapper{
+    position:relative;
+    z-index:5;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:25px;
+}
+
+/* ================================
+   LOGIN CARD
+================================ */
+
+.login-card{
+    width:430px;
+    max-width:100%;
+
+    padding:38px;
+
+    border-radius:24px;
+
+    background:
+        rgba(12,17,28,.82);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.65),
+        0 0 60px rgba(0,180,255,.08);
+
+    backdrop-filter:blur(25px);
+
+    animation:
+        cardEnter
+        .8s
+        ease
+        forwards;
+}
+
+@keyframes cardEnter{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(40px)
+            scale(.94);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* ================================
+   LOGO
+================================ */
+
+.logo{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.logo-icon{
+
+    width:68px;
+    height:68px;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00d9ff,
+            #6d4aff
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0,217,255,.35),
+
+        0 0 50px
+        rgba(109,74,255,.18);
+
+    transform:rotate(-5deg);
+}
+
+.logo-icon span{
+
+    font-size:30px;
+    font-weight:900;
+
+    transform:rotate(5deg);
+}
+
+.logo h1{
+
+    margin-top:18px;
+
+    font-size:30px;
+
+    letter-spacing:5px;
+
+    font-weight:900;
+}
+
+.logo p{
+
+    color:#8f9aac;
+
+    font-size:13px;
+
+    margin-top:7px;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.form{
+    margin-top:30px;
+}
+
+.input-group{
+    position:relative;
+    margin-bottom:17px;
+}
+
+.input-group input{
+
+    width:100%;
+    height:55px;
+
+    padding:
+        0 48px
+        0 17px;
+
+    border-radius:13px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    outline:none;
+
+    color:white;
+
+    background:
+        rgba(255,255,255,.055);
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.input-group input::placeholder{
+    color:#697384;
+}
+
+.input-group input:focus{
+
+    border-color:#00cfff;
+
+    background:
+        rgba(0,207,255,.06);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(0,207,255,.08);
+}
+
+.input-icon{
+
+    position:absolute;
+
+    right:17px;
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    color:#788495;
+
+    font-size:18px;
+}
+
+.password-toggle{
+    cursor:pointer;
+}
+
+/* ================================
+   OPTIONS
+================================ */
+
+.options{
+
+    display:flex;
+
+    justify-content:
+        space-between;
+
+    align-items:center;
+
+    margin:
+        4px 0
+        22px;
+
+    font-size:12px;
+}
+
+.remember{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    color:#8f9aac;
+
+    cursor:pointer;
+}
+
+.remember input{
+    accent-color:#00cfff;
+}
+
+.forgot{
+
+    color:#00cfff;
+
+    text-decoration:none;
+}
+
+.forgot:hover{
+    text-decoration:underline;
+}
+
+/* ================================
+   BUTTON
+================================ */
+
+.login-btn{
+
+    position:relative;
+
+    width:100%;
+    height:55px;
+
+    border:none;
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            100deg,
+            #00bfff,
+            #6748ff
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,150,255,.22);
+
+    transition:.3s;
+}
+
+.login-btn:hover{
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,180,255,.35);
+}
+
+.login-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.loader{
+
+    display:none;
+
+    width:18px;
+    height:18px;
+
+    margin:auto;
+
+    border:
+        3px solid
+        rgba(255,255,255,.3);
+
+    border-top-color:white;
+
+    border-radius:50%;
+
+    animation:
+        spin
+        .7s
+        linear
+        infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ================================
+   DIVIDER
+================================ */
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:25px 0;
+
+    color:#5e6878;
+
+    font-size:11px;
+}
+
+.divider::before,
+.divider::after{
+
+    content:"";
+
+    height:1px;
+
+    flex:1;
+
+    background:
+        rgba(255,255,255,.09);
+}
+
+/* ================================
+   GOOGLE BUTTON
+================================ */
+
+.google-btn{
+
+    width:100%;
+    height:50px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    transition:.3s;
+}
+
+.google-btn:hover{
+
+    background:
+        rgba(255,255,255,.1);
+
+    transform:
+        translateY(-2px);
+}
+
+.google-icon{
+
+    width:20px;
+    height:20px;
+
+    background:white;
+
+    color:#4285f4;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:900;
+}
+
+/* ================================
+   GUEST
+================================ */
+
+.guest-btn{
+
+    width:100%;
+
+    height:50px;
+
+    margin-top:12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:#dce2ea;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.guest-btn:hover{
+
+    background:
+        rgba(255,255,255,.09);
+
+    transform:
+        translateY(-2px);
+}
+
+/* ================================
+   REGISTER
+================================ */
+
+.register{
+
+    text-align:center;
+
+    margin-top:26px;
+
+    font-size:13px;
+
+    color:#778292;
+}
+
+.register a{
+
+    color:#00d4ff;
+
+    font-weight:700;
+
+    text-decoration:none;
+}
+
+.register a:hover{
+    text-decoration:underline;
+}
+
+/* ================================
+   USER PANEL
+================================ */
+
+.user-panel{
+
+    display:none;
+
+    text-align:center;
+}
+
+.avatar{
+
+    width:75px;
+    height:75px;
+
+    border-radius:50%;
+
+    margin:0 auto 15px;
+
+    object-fit:cover;
+
+    border:
+        3px solid
+        #00d9ff;
+
+    box-shadow:
+        0 0 25px
+        rgba(0,217,255,.35);
+}
+
+.user-panel h2{
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.user-email{
+
+    color:#8f9aac;
+
+    font-size:13px;
+
+    margin-bottom:25px;
+
+    word-break:break-word;
+}
+
+.start-btn{
+
+    width:100%;
+    height:52px;
+
+    border:none;
+
+    border-radius:13px;
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            100deg,
+            #00bfff,
+            #6748ff
+        );
+
+    margin-bottom:12px;
+}
+
+.logout-btn{
+
+    width:100%;
+    height:48px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:12px;
+
+    color:#dce2ea;
+
+    background:
+        rgba(255,255,255,.04);
+
+    cursor:pointer;
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+.footer{
+
+    text-align:center;
+
+    margin-top:22px;
+
+    color:#4f5968;
+
+    font-size:10px;
+}
+
+/* ================================
+   TOAST
+================================ */
+
+.toast{
+
+    position:fixed;
+
+    z-index:100;
+
+    top:25px;
+    right:25px;
+
+    max-width:350px;
+
+    padding:
+        14px 18px;
+
+    border-radius:12px;
+
+    background:
+        rgba(15,20,30,.96);
+
+    border:
+        1px solid
+        rgba(0,210,255,.25);
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.4);
+
+    color:white;
+
+    font-size:13px;
+
+    transform:
+        translateX(150%);
+
+    transition:.4s;
+}
+
+.toast.show{
+    transform:
+        translateX(0);
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media(max-width:500px){
+
+    body{
+        overflow-y:auto;
+    }
+
+    .wrapper{
+        padding:18px;
+    }
+
+    .login-card{
+        padding:28px 22px;
+        border-radius:20px;
+    }
+
+    .logo h1{
+        font-size:25px;
+    }
+
+    .block{
+        opacity:.5;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================================
+     BACKGROUND
+================================ -->
+
+<div class="game-bg">
+
+    <div class="grid"></div>
+
+    <div class="particles">
+
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+
+    </div>
+
+    <div class="block one"></div>
+    <div class="block two"></div>
+    <div class="block three"></div>
+
+</div>
+
+
+<!-- ================================
+     MAIN
+================================ -->
+
+<main class="wrapper">
+
+<section class="login-card">
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            <span>N</span>
+        </div>
+
+        <h1>NEXORA</h1>
+
+        <p>ENTER THE NEXT LEVEL</p>
+
+    </div>
+
+
+    <!-- ============================
+         AUTH SECTION
+    ============================= -->
+
+    <div id="authSection">
+
+        <!-- EMAIL LOGIN -->
+
+        <form class="form" id="loginForm">
+
+            <div class="input-group">
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Email address"
+                    autocomplete="email"
+                    required
+                >
+
+                <span class="input-icon">
+                    @
+                </span>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <span
+                    class="input-icon password-toggle"
+                    id="toggleLoginPassword"
+                >
+                    ◉
+                </span>
+
+            </div>
+
+
+            <div class="options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="remember"
+                    >
+
+                    Remember me
+
+                </label>
+
+                <a
+                    href="#"
+                    class="forgot"
+                    id="forgotPassword"
+                >
+                    Forgot password?
+                </a>
+
+            </div>
+
+
+            <button
+                class="login-btn"
+                type="submit"
+                id="loginBtn"
+            >
+
+                <span id="loginText">
+                    ENTER GAME
+                </span>
+
+                <div
+                    class="loader"
+                    id="loginLoader"
+                ></div>
+
+            </button>
+
+        </form>
+
+
+        <!-- DIVIDER -->
+
+        <div class="divider">
+            OR
+        </div>
+
+
+        <!-- GOOGLE -->
+
+        <button
+            class="google-btn"
+            id="googleBtn"
+            type="button"
+        >
+
+            <span class="google-icon">
+                G
+            </span>
+
+            Continue with Google
+
+        </button>
+
+
+        <!-- GUEST -->
+
+        <button
+            class="guest-btn"
+            id="guestBtn"
+            type="button"
+        >
+
+            ⚡ Continue as Guest
+
+        </button>
+
+
+        <!-- REGISTER -->
+
+        <div class="register">
+
+            New player?
+
+            <a
+                href="#"
+                id="createAccount"
+            >
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================
+         REGISTER SECTION
+    ============================= -->
+
+    <div
+        id="registerSection"
+        style="display:none;"
+    >
+
+        <form
+            class="form"
+            id="registerForm"
+        >
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="registerUsername"
+                    placeholder="Username"
+                    minlength="3"
+                    required
+                >
+
+                <span class="input-icon">
+                    ◉
+                </span>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="Email address"
+                    autocomplete="email"
+                    required
+                >
+
+                <span class="input-icon">
+                    @
+                </span>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Create password"
+                    minlength="6"
+                    required
+                >
+
+                <span
+                    class="input-icon password-toggle"
+                    id="toggleRegisterPassword"
+                >
+                    ◉
+                </span>
+
+            </div>
+
+
+            <button
+                class="login-btn"
+                type="submit"
+                id="registerBtn"
+            >
+
+                <span id="registerText">
+                    CREATE ACCOUNT
+                </span>
+
+                <div
+                    class="loader"
+                    id="registerLoader"
+                ></div>
+
+            </button>
+
+        </form>
+
+
+        <div class="register">
+
+            Already have an account?
+
+            <a
+                href="#"
+                id="backToLogin"
+            >
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================
+         USER PANEL
+    ============================= -->
+
+    <div
+        class="user-panel"
+        id="userPanel"
+    >
+
+        <img
+            class="avatar"
+            id="userAvatar"
+            src=""
+            alt="User"
+        >
+
+        <h2 id="userName">
+            Player
+        </h2>
+
+        <div
+            class="user-email"
+            id="userEmail"
+        >
+        </div>
+
+
+        <button
+            class="start-btn"
+            id="startGame"
+        >
+            🎮 ENTER NEXORA
+        </button>
+
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            LOG OUT
+        </button>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        © 2026 NEXORA GAMING
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIGURATION
+===================================================== */
+
+/*
+   IMPORTANT:
+
+   Replace these two values with your own
+   Supabase project information.
+
+   Supabase Dashboard
+   → Project Settings
+   → API
+*/
+
+const SUPABASE_URL =
+    "https://rvzguquaznbsuxvytfyz.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_A33Ujai0VrsWOChm3e4vkQ_WXfW15Yt";
+
+
+/* Create Supabase client */
+
+const {
+    createClient
+} = supabase;
+
+const db =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const authSection =
+    document.getElementById("authSection");
+
+const registerSection =
+    document.getElementById("registerSection");
+
+const userPanel =
+    document.getElementById("userPanel");
+
+const toast =
+    document.getElementById("toast");
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3500);
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+.getElementById("loginForm")
+.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+        const email =
+            document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+        const password =
+            document
+            .getElementById("loginPassword")
+            .value;
+
+
+        const button =
+            document
+            .getElementById("loginBtn");
+
+        const text =
+            document
+            .getElementById("loginText");
+
+        const loader =
+            document
+            .getElementById("loginLoader");
+
+
+        text.style.display =
+            "none";
+
+        loader.style.display =
+            "block";
+
+        button.disabled =
+            true;
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await db.auth
+            .signInWithPassword({
+
+                email:
+                    email,
+
+                password:
+                    password
+
+            });
+
+
+            if(error)
+                throw error;
+
+
+            showToast(
+                "Login successful!"
+            );
+
+
+            await loadUser(
+                data.user
+            );
+
+
+        }catch(error){
+
+            showToast(
+                error.message
+            );
+
+        }finally{
+
+            text.style.display =
+                "inline";
+
+            loader.style.display =
+                "none";
+
+            button.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   GOOGLE LOGIN
+===================================================== */
+
+document
+.getElementById("googleBtn")
+.addEventListener(
+    "click",
+    async function(){
+
+        try{
+
+            const {
+                error
+            } =
+            await db.auth
+            .signInWithOAuth({
+
+                provider:
+                    "google",
+
+                options:{
+redirectTo: window.location.origin
+                }
+
+            });
+
+
+            if(error)
+                throw error;
+
+
+        }catch(error){
+
+            showToast(
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CREATE ACCOUNT PAGE
+===================================================== */
+
+document
+.getElementById("createAccount")
+.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+
+        authSection.style.display =
+            "none";
+
+        registerSection.style.display =
+            "block";
+
+    }
+);
+
+
+/* =====================================================
+   BACK TO LOGIN
+===================================================== */
+
+document
+.getElementById("backToLogin")
+.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+
+        registerSection.style.display =
+            "none";
+
+        authSection.style.display =
+            "block";
+
+    }
+);
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+document
+.getElementById("registerForm")
+.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const username =
+            document
+            .getElementById("registerUsername")
+            .value
+            .trim();
+
+        const email =
+            document
+            .getElementById("registerEmail")
+            .value
+            .trim();
+
+        const password =
+            document
+            .getElementById("registerPassword")
+            .value;
+
+
+        const button =
+            document
+            .getElementById("registerBtn");
+
+        const text =
+            document
+            .getElementById("registerText");
+
+        const loader =
+            document
+            .getElementById("registerLoader");
+
+
+        text.style.display =
+            "none";
+
+        loader.style.display =
+            "block";
+
+        button.disabled =
+            true;
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await db.auth
+            .signUp({
+
+                email:
+                    email,
+
+                password:
+                    password,
+
+                options:{
+
+                    data:{
+
+                        username:
+                            username
+
+                    }
+
+                }
+
+            });
+
+
+            if(error)
+                throw error;
+
+
+            /*
+              If email confirmation is enabled,
+              Supabase may return a user but
+              require email verification.
+            */
+
+            if(
+                data.user &&
+                data.session
+            ){
+
+                await saveProfile(
+                    data.user,
+                    username,
+                    "email"
+                );
+
+                await loadUser(
+                    data.user
+                );
+
+            }else{
+
+                showToast(
+                    "Account created! Check your email to verify your account."
+                );
+
+                registerSection.style.display =
+                    "none";
+
+                authSection.style.display =
+                    "block";
+
+            }
+
+
+        }catch(error){
+
+            showToast(
+                error.message
+            );
+
+        }finally{
+
+            text.style.display =
+                "inline";
+
+            loader.style.display =
+                "none";
+
+            button.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SAVE PROFILE
+===================================================== */
+
+async function saveProfile(
+    user,
+    username = null,
+    provider = "email"
+){
+
+    if(!user)
+        return;
+
+
+    const metadata =
+        user.user_metadata || {};
+
+
+    const finalUsername =
+        username ||
+        metadata.username ||
+        metadata.full_name ||
+        user.email
+        ?.split("@")[0];
+
+
+    const avatar =
+        metadata.avatar_url ||
+        metadata.picture ||
+        null;
+
+
+    const {
+        error
+    } =
+    await db
+    .from("profiles")
+    .upsert({
+
+        id:
+            user.id,
+
+        email:
+            user.email,
+
+        username:
+            finalUsername,
+
+        avatar_url:
+            avatar,
+
+        provider:
+            provider
+
+    });
+
+
+    if(error){
+
+        console.error(
+            "Profile error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD USER
+===================================================== */
+
+async function loadUser(user){
+
+    if(!user)
+        return;
+
+
+    const metadata =
+        user.user_metadata || {};
+
+
+    const provider =
+        user.app_metadata
+        ?.provider ||
+        "email";
+
+
+    /*
+       Save Google users automatically.
+    */
+
+    await saveProfile(
+        user,
+        null,
+        provider
+    );
+
+
+    const username =
+        metadata.username ||
+        metadata.full_name ||
+        metadata.name ||
+        user.email
+        ?.split("@")[0] ||
+        "Player";
+
+
+    const avatar =
+        metadata.avatar_url ||
+        metadata.picture ||
+        "https://ui-avatars.com/api/?name=" +
+        encodeURIComponent(username);
+
+
+    document
+    .getElementById("userName")
+    .textContent =
+        username;
+
+
+    document
+    .getElementById("userEmail")
+    .textContent =
+        user.email || "";
+
+
+    document
+    .getElementById("userAvatar")
+    .src =
+        avatar;
+
+
+    authSection.style.display =
+        "none";
+
+    registerSection.style.display =
+        "none";
+
+    userPanel.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+    "click",
+    async function(){
+
+        const {
+            error
+        } =
+        await db.auth.signOut();
+
+
+        if(error){
+
+            showToast(
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        userPanel.style.display =
+            "none";
+
+        authSection.style.display =
+            "block";
+
+
+        showToast(
+            "You have been logged out."
+        );
+
+    }
+);
+
+
+/* =====================================================
+   GUEST
+===================================================== */
+
+document
+.getElementById("guestBtn")
+.addEventListener(
+    "click",
+    function(){
+
+        showToast(
+            "Welcome, Guest Player!"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+document
+.getElementById("forgotPassword")
+.addEventListener(
+    "click",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const email =
+            document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+
+        if(!email){
+
+            showToast(
+                "Enter your email first."
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            const {
+                error
+            } =
+            await db.auth
+            .resetPasswordForEmail(
+                email,
+                {
+
+                    redirectTo:
+                        window.location.href
+
+                }
+            );
+
+
+            if(error)
+                throw error;
+
+
+            showToast(
+                "Password reset email sent!"
+            );
+
+
+        }catch(error){
+
+            showToast(
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+document
+.getElementById("startGame")
+.addEventListener(
+    "click",
+    function(){
+
+        showToast(
+            "Game dashboard coming next..."
+        );
+
+    }
+);
+
+
+/* =====================================================
+   PASSWORD TOGGLES
+===================================================== */
+
+document
+.getElementById("toggleLoginPassword")
+.addEventListener(
+    "click",
+    function(){
+
+        const input =
+            document
+            .getElementById("loginPassword");
+
+
+        input.type =
+            input.type === "password"
+            ? "text"
+            : "password";
+
+    }
+);
+
+
+document
+.getElementById("toggleRegisterPassword")
+.addEventListener(
+    "click",
+    function(){
+
+        const input =
+            document
+            .getElementById("registerPassword");
+
+
+        input.type =
+            input.type === "password"
+            ? "text"
+            : "password";
+
+    }
+);
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+db.auth.onAuthStateChange(
+    async function(
+        event,
+        session
+    ){
+
+        if(session?.user){
+
+            /*
+              Small delay prevents
+              auth-state race conditions.
+            */
+
+            setTimeout(
+                async function(){
+
+                    await loadUser(
+                        session.user
+                    );
+
+                },
+                0
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CHECK EXISTING SESSION
+===================================================== */
+
+async function checkSession(){
+
+    const {
+        data
+    } =
+    await db.auth.getSession();
+
+
+    if(
+        data &&
+        data.session &&
+        data.session.user
+    ){
+
+        await loadUser(
+            data.session.user
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RANDOM PARTICLE DELAYS
+===================================================== */
+
+document
+.querySelectorAll(".particle")
+.forEach(
+    particle => {
+
+        particle.style.animationDelay =
+            `${Math.random()*6}s`;
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
+```
