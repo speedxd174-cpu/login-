@@ -7,8 +7,8 @@
 
 <title>NEXORA — Game Login</title>
 
-<!-- Supabase -->
-<script src="sb_publishable_A33Ujai0VrsWOChm3e4vkQ_WXfW15Yt"></script>
+<!-- Supabase JavaScript Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -22,7 +22,8 @@
     box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     width:100%;
     min-height:100%;
     font-family:Arial,Helvetica,sans-serif;
@@ -1020,8 +1021,6 @@ body{
 
     <div id="authSection">
 
-        <!-- EMAIL LOGIN -->
-
         <form class="form" id="loginForm">
 
             <div class="input-group">
@@ -1105,14 +1104,10 @@ body{
         </form>
 
 
-        <!-- DIVIDER -->
-
         <div class="divider">
             OR
         </div>
 
-
-        <!-- GOOGLE -->
 
         <button
             class="google-btn"
@@ -1129,8 +1124,6 @@ body{
         </button>
 
 
-        <!-- GUEST -->
-
         <button
             class="guest-btn"
             id="guestBtn"
@@ -1141,8 +1134,6 @@ body{
 
         </button>
 
-
-        <!-- REGISTER -->
 
         <div class="register">
 
@@ -1287,8 +1278,7 @@ body{
         <div
             class="user-email"
             id="userEmail"
-        >
-        </div>
+        ></div>
 
 
         <button
@@ -1330,22 +1320,15 @@ body{
 ></div>
 
 
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
 <script>
 
 /* =====================================================
    SUPABASE CONFIGURATION
 ===================================================== */
-
-/*
-   IMPORTANT:
-
-   Replace these two values with your own
-   Supabase project information.
-
-   Supabase Dashboard
-   → Project Settings
-   → API
-*/
 
 const SUPABASE_URL =
     "https://rvzguquaznbsuxvytfyz.supabase.co";
@@ -1353,18 +1336,16 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_A33Ujai0VrsWOChm3e4vkQ_WXfW15Yt";
 
-
-/* Create Supabase client */
-
-const {
-    createClient
-} = supabase;
-
 const db =
-    createClient(
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
+
+console.log(
+    "Supabase client created:",
+    db
+);
 
 
 /* =====================================================
@@ -1400,6 +1381,7 @@ function showToast(message){
         toast.classList.remove("show");
 
     },3500);
+
 }
 
 
@@ -1408,101 +1390,98 @@ function showToast(message){
 ===================================================== */
 
 document
-.getElementById("loginForm")
-.addEventListener(
-    "submit",
-    async function(event){
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        async function(event){
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const email =
-            document
-            .getElementById("loginEmail")
-            .value
-            .trim();
+            const email =
+                document
+                    .getElementById("loginEmail")
+                    .value
+                    .trim();
 
-        const password =
-            document
-            .getElementById("loginPassword")
-            .value;
+            const password =
+                document
+                    .getElementById("loginPassword")
+                    .value;
 
+            const button =
+                document
+                    .getElementById("loginBtn");
 
-        const button =
-            document
-            .getElementById("loginBtn");
+            const text =
+                document
+                    .getElementById("loginText");
 
-        const text =
-            document
-            .getElementById("loginText");
-
-        const loader =
-            document
-            .getElementById("loginLoader");
-
-
-        text.style.display =
-            "none";
-
-        loader.style.display =
-            "block";
-
-        button.disabled =
-            true;
-
-
-        try{
-
-            const {
-                data,
-                error
-            } =
-            await db.auth
-            .signInWithPassword({
-
-                email:
-                    email,
-
-                password:
-                    password
-
-            });
-
-
-            if(error)
-                throw error;
-
-
-            showToast(
-                "Login successful!"
-            );
-
-
-            await loadUser(
-                data.user
-            );
-
-
-        }catch(error){
-
-            showToast(
-                error.message
-            );
-
-        }finally{
+            const loader =
+                document
+                    .getElementById("loginLoader");
 
             text.style.display =
-                "inline";
-
-            loader.style.display =
                 "none";
 
+            loader.style.display =
+                "block";
+
             button.disabled =
-                false;
+                true;
+
+            try{
+
+                const {
+                    data,
+                    error
+                } =
+                    await db.auth.signInWithPassword({
+
+                        email: email,
+
+                        password: password
+
+                    });
+
+                if(error)
+                    throw error;
+
+                showToast(
+                    "Login successful!"
+                );
+
+                await loadUser(
+                    data.user
+                );
+
+            }
+            catch(error){
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+                showToast(
+                    error.message
+                );
+
+            }
+            finally{
+
+                text.style.display =
+                    "inline";
+
+                loader.style.display =
+                    "none";
+
+                button.disabled =
+                    false;
+
+            }
 
         }
-
-    }
-);
+    );
 
 
 /* =====================================================
@@ -1510,43 +1489,49 @@ document
 ===================================================== */
 
 document
-.getElementById("googleBtn")
-.addEventListener(
-    "click",
-    async function(){
+    .getElementById("googleBtn")
+    .addEventListener(
+        "click",
+        async function(){
 
-        try{
+            try{
 
-            const {
-                error
-            } =
-            await db.auth
-            .signInWithOAuth({
+                const {
+                    error
+                } =
+                    await db.auth.signInWithOAuth({
 
-                provider:
-                    "google",
+                        provider:
+                            "google",
 
-                options:{
-redirectTo: window.location.origin
-                }
+                        options:{
 
-            });
+                            redirectTo:
+                                window.location.origin
 
+                        }
 
-            if(error)
-                throw error;
+                    });
 
+                if(error)
+                    throw error;
 
-        }catch(error){
+            }
+            catch(error){
 
-            showToast(
-                error.message
-            );
+                console.error(
+                    "Google login error:",
+                    error
+                );
+
+                showToast(
+                    error.message
+                );
+
+            }
 
         }
-
-    }
-);
+    );
 
 
 /* =====================================================
@@ -1554,21 +1539,21 @@ redirectTo: window.location.origin
 ===================================================== */
 
 document
-.getElementById("createAccount")
-.addEventListener(
-    "click",
-    function(event){
+    .getElementById("createAccount")
+    .addEventListener(
+        "click",
+        function(event){
 
-        event.preventDefault();
+            event.preventDefault();
 
-        authSection.style.display =
-            "none";
+            authSection.style.display =
+                "none";
 
-        registerSection.style.display =
-            "block";
+            registerSection.style.display =
+                "block";
 
-    }
-);
+        }
+    );
 
 
 /* =====================================================
@@ -1576,21 +1561,21 @@ document
 ===================================================== */
 
 document
-.getElementById("backToLogin")
-.addEventListener(
-    "click",
-    function(event){
+    .getElementById("backToLogin")
+    .addEventListener(
+        "click",
+        function(event){
 
-        event.preventDefault();
+            event.preventDefault();
 
-        registerSection.style.display =
-            "none";
+            registerSection.style.display =
+                "none";
 
-        authSection.style.display =
-            "block";
+            authSection.style.display =
+                "block";
 
-    }
-);
+        }
+    );
 
 
 /* =====================================================
@@ -1598,145 +1583,144 @@ document
 ===================================================== */
 
 document
-.getElementById("registerForm")
-.addEventListener(
-    "submit",
-    async function(event){
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        async function(event){
 
-        event.preventDefault();
+            event.preventDefault();
 
+            const username =
+                document
+                    .getElementById("registerUsername")
+                    .value
+                    .trim();
 
-        const username =
-            document
-            .getElementById("registerUsername")
-            .value
-            .trim();
+            const email =
+                document
+                    .getElementById("registerEmail")
+                    .value
+                    .trim();
 
-        const email =
-            document
-            .getElementById("registerEmail")
-            .value
-            .trim();
+            const password =
+                document
+                    .getElementById("registerPassword")
+                    .value;
 
-        const password =
-            document
-            .getElementById("registerPassword")
-            .value;
+            const button =
+                document
+                    .getElementById("registerBtn");
 
+            const text =
+                document
+                    .getElementById("registerText");
 
-        const button =
-            document
-            .getElementById("registerBtn");
+            const loader =
+                document
+                    .getElementById("registerLoader");
 
-        const text =
-            document
-            .getElementById("registerText");
+            text.style.display =
+                "none";
 
-        const loader =
-            document
-            .getElementById("registerLoader");
+            loader.style.display =
+                "block";
 
+            button.disabled =
+                true;
 
-        text.style.display =
-            "none";
+            try{
 
-        loader.style.display =
-            "block";
+                const {
+                    data,
+                    error
+                } =
+                    await db.auth.signUp({
 
-        button.disabled =
-            true;
+                        email:
+                            email,
 
+                        password:
+                            password,
 
-        try{
+                        options:{
 
-            const {
-                data,
-                error
-            } =
-            await db.auth
-            .signUp({
+                            data:{
 
-                email:
-                    email,
+                                username:
+                                    username
 
-                password:
-                    password,
+                            }
 
-                options:{
+                        }
 
-                    data:{
+                    });
 
-                        username:
-                            username
+                if(error)
+                    throw error;
 
-                    }
+                /*
+                    If email confirmation is disabled,
+                    Supabase returns a session immediately.
+                */
+
+                if(
+                    data.user &&
+                    data.session
+                ){
+
+                    await saveProfile(
+                        data.user,
+                        username,
+                        "email"
+                    );
+
+                    await loadUser(
+                        data.user
+                    );
+
+                }
+                else{
+
+                    showToast(
+                        "Account created! Check your email to verify your account."
+                    );
+
+                    registerSection.style.display =
+                        "none";
+
+                    authSection.style.display =
+                        "block";
 
                 }
 
-            });
+            }
+            catch(error){
 
-
-            if(error)
-                throw error;
-
-
-            /*
-              If email confirmation is enabled,
-              Supabase may return a user but
-              require email verification.
-            */
-
-            if(
-                data.user &&
-                data.session
-            ){
-
-                await saveProfile(
-                    data.user,
-                    username,
-                    "email"
+                console.error(
+                    "Registration error:",
+                    error
                 );
-
-                await loadUser(
-                    data.user
-                );
-
-            }else{
 
                 showToast(
-                    "Account created! Check your email to verify your account."
+                    error.message
                 );
 
-                registerSection.style.display =
+            }
+            finally{
+
+                text.style.display =
+                    "inline";
+
+                loader.style.display =
                     "none";
 
-                authSection.style.display =
-                    "block";
+                button.disabled =
+                    false;
 
             }
 
-
-        }catch(error){
-
-            showToast(
-                error.message
-            );
-
-        }finally{
-
-            text.style.display =
-                "inline";
-
-            loader.style.display =
-                "none";
-
-            button.disabled =
-                false;
-
         }
-
-    }
-);
+    );
 
 
 /* =====================================================
@@ -1752,49 +1736,45 @@ async function saveProfile(
     if(!user)
         return;
 
-
     const metadata =
         user.user_metadata || {};
-
 
     const finalUsername =
         username ||
         metadata.username ||
         metadata.full_name ||
-        user.email
-        ?.split("@")[0];
-
+        metadata.name ||
+        user.email?.split("@")[0] ||
+        "Player";
 
     const avatar =
         metadata.avatar_url ||
         metadata.picture ||
         null;
 
-
     const {
         error
     } =
-    await db
-    .from("profiles")
-    .upsert({
+        await db
+            .from("profiles")
+            .upsert({
 
-        id:
-            user.id,
+                id:
+                    user.id,
 
-        email:
-            user.email,
+                email:
+                    user.email,
 
-        username:
-            finalUsername,
+                username:
+                    finalUsername,
 
-        avatar_url:
-            avatar,
+                avatar_url:
+                    avatar,
 
-        provider:
-            provider
+                provider:
+                    provider
 
-    });
-
+            });
 
     if(error){
 
@@ -1817,20 +1797,12 @@ async function loadUser(user){
     if(!user)
         return;
 
-
     const metadata =
         user.user_metadata || {};
 
-
     const provider =
-        user.app_metadata
-        ?.provider ||
+        user.app_metadata?.provider ||
         "email";
-
-
-    /*
-       Save Google users automatically.
-    */
 
     await saveProfile(
         user,
@@ -1838,15 +1810,12 @@ async function loadUser(user){
         provider
     );
 
-
     const username =
         metadata.username ||
         metadata.full_name ||
         metadata.name ||
-        user.email
-        ?.split("@")[0] ||
+        user.email?.split("@")[0] ||
         "Player";
-
 
     const avatar =
         metadata.avatar_url ||
@@ -1854,24 +1823,20 @@ async function loadUser(user){
         "https://ui-avatars.com/api/?name=" +
         encodeURIComponent(username);
 
+    document
+        .getElementById("userName")
+        .textContent =
+            username;
 
     document
-    .getElementById("userName")
-    .textContent =
-        username;
-
-
-    document
-    .getElementById("userEmail")
-    .textContent =
-        user.email || "";
-
+        .getElementById("userEmail")
+        .textContent =
+            user.email || "";
 
     document
-    .getElementById("userAvatar")
-    .src =
-        avatar;
-
+        .getElementById("userAvatar")
+        .src =
+            avatar;
 
     authSection.style.display =
         "none";
@@ -1890,41 +1855,38 @@ async function loadUser(user){
 ===================================================== */
 
 document
-.getElementById("logoutBtn")
-.addEventListener(
-    "click",
-    async function(){
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        async function(){
 
-        const {
-            error
-        } =
-        await db.auth.signOut();
+            const {
+                error
+            } =
+                await db.auth.signOut();
 
+            if(error){
 
-        if(error){
+                showToast(
+                    error.message
+                );
+
+                return;
+
+            }
+
+            userPanel.style.display =
+                "none";
+
+            authSection.style.display =
+                "block";
 
             showToast(
-                error.message
+                "You have been logged out."
             );
 
-            return;
-
         }
-
-
-        userPanel.style.display =
-            "none";
-
-        authSection.style.display =
-            "block";
-
-
-        showToast(
-            "You have been logged out."
-        );
-
-    }
-);
+    );
 
 
 /* =====================================================
@@ -1932,17 +1894,17 @@ document
 ===================================================== */
 
 document
-.getElementById("guestBtn")
-.addEventListener(
-    "click",
-    function(){
+    .getElementById("guestBtn")
+    .addEventListener(
+        "click",
+        function(){
 
-        showToast(
-            "Welcome, Guest Player!"
-        );
+            showToast(
+                "Welcome, Guest Player!"
+            );
 
-    }
-);
+        }
+    );
 
 
 /* =====================================================
@@ -1950,68 +1912,68 @@ document
 ===================================================== */
 
 document
-.getElementById("forgotPassword")
-.addEventListener(
-    "click",
-    async function(event){
+    .getElementById("forgotPassword")
+    .addEventListener(
+        "click",
+        async function(event){
 
-        event.preventDefault();
+            event.preventDefault();
 
+            const email =
+                document
+                    .getElementById("loginEmail")
+                    .value
+                    .trim();
 
-        const email =
-            document
-            .getElementById("loginEmail")
-            .value
-            .trim();
+            if(!email){
 
+                showToast(
+                    "Enter your email first."
+                );
 
-        if(!email){
+                return;
 
-            showToast(
-                "Enter your email first."
-            );
+            }
 
-            return;
+            try{
+
+                const {
+                    error
+                } =
+                    await db.auth
+                        .resetPasswordForEmail(
+                            email,
+                            {
+
+                                redirectTo:
+                                    window.location.href
+
+                            }
+                        );
+
+                if(error)
+                    throw error;
+
+                showToast(
+                    "Password reset email sent!"
+                );
+
+            }
+            catch(error){
+
+                console.error(
+                    "Password reset error:",
+                    error
+                );
+
+                showToast(
+                    error.message
+                );
+
+            }
 
         }
-
-
-        try{
-
-            const {
-                error
-            } =
-            await db.auth
-            .resetPasswordForEmail(
-                email,
-                {
-
-                    redirectTo:
-                        window.location.href
-
-                }
-            );
-
-
-            if(error)
-                throw error;
-
-
-            showToast(
-                "Password reset email sent!"
-            );
-
-
-        }catch(error){
-
-            showToast(
-                error.message
-            );
-
-        }
-
-    }
-);
+    );
 
 
 /* =====================================================
@@ -2019,17 +1981,17 @@ document
 ===================================================== */
 
 document
-.getElementById("startGame")
-.addEventListener(
-    "click",
-    function(){
+    .getElementById("startGame")
+    .addEventListener(
+        "click",
+        function(){
 
-        showToast(
-            "Game dashboard coming next..."
-        );
+            showToast(
+                "Game dashboard coming next..."
+            );
 
-    }
-);
+        }
+    );
 
 
 /* =====================================================
@@ -2037,43 +1999,41 @@ document
 ===================================================== */
 
 document
-.getElementById("toggleLoginPassword")
-.addEventListener(
-    "click",
-    function(){
+    .getElementById("toggleLoginPassword")
+    .addEventListener(
+        "click",
+        function(){
 
-        const input =
-            document
-            .getElementById("loginPassword");
+            const input =
+                document
+                    .getElementById("loginPassword");
 
+            input.type =
+                input.type === "password"
+                    ? "text"
+                    : "password";
 
-        input.type =
-            input.type === "password"
-            ? "text"
-            : "password";
-
-    }
-);
+        }
+    );
 
 
 document
-.getElementById("toggleRegisterPassword")
-.addEventListener(
-    "click",
-    function(){
+    .getElementById("toggleRegisterPassword")
+    .addEventListener(
+        "click",
+        function(){
 
-        const input =
-            document
-            .getElementById("registerPassword");
+            const input =
+                document
+                    .getElementById("registerPassword");
 
+            input.type =
+                input.type === "password"
+                    ? "text"
+                    : "password";
 
-        input.type =
-            input.type === "password"
-            ? "text"
-            : "password";
-
-    }
-);
+        }
+    );
 
 
 /* =====================================================
@@ -2087,11 +2047,6 @@ db.auth.onAuthStateChange(
     ){
 
         if(session?.user){
-
-            /*
-              Small delay prevents
-              auth-state race conditions.
-            */
 
             setTimeout(
                 async function(){
@@ -2116,20 +2071,43 @@ db.auth.onAuthStateChange(
 
 async function checkSession(){
 
-    const {
-        data
-    } =
-    await db.auth.getSession();
+    try{
 
+        const {
+            data,
+            error
+        } =
+            await db.auth.getSession();
 
-    if(
-        data &&
-        data.session &&
-        data.session.user
-    ){
+        if(error){
 
-        await loadUser(
+            console.error(
+                "Session error:",
+                error
+            );
+
+            return;
+
+        }
+
+        if(
+            data &&
+            data.session &&
             data.session.user
+        ){
+
+            await loadUser(
+                data.session.user
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Check session error:",
+            error
         );
 
     }
@@ -2142,15 +2120,15 @@ async function checkSession(){
 ===================================================== */
 
 document
-.querySelectorAll(".particle")
-.forEach(
-    particle => {
+    .querySelectorAll(".particle")
+    .forEach(
+        particle => {
 
-        particle.style.animationDelay =
-            `${Math.random()*6}s`;
+            particle.style.animationDelay =
+                `${Math.random()*6}s`;
 
-    }
-);
+        }
+    );
 
 
 /* =====================================================
