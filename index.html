@@ -1,21 +1,30 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>NEXORA — Game Login</title>
 
+<!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     width:100%;
     min-height:100%;
     font-family:Arial,Helvetica,sans-serif;
@@ -27,7 +36,9 @@ body{
     color:white;
 }
 
-/* BACKGROUND */
+/* =====================================================
+   BACKGROUND
+===================================================== */
 
 .game-bg{
     position:fixed;
@@ -35,9 +46,22 @@ body{
     overflow:hidden;
 
     background:
-        radial-gradient(circle at 20% 20%,rgba(0,190,255,.15),transparent 30%),
-        radial-gradient(circle at 80% 80%,rgba(145,0,255,.16),transparent 30%),
-        linear-gradient(135deg,#070910,#0c1220 50%,#080910);
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0,190,255,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(145,0,255,.16),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #070910,
+            #0c1220 50%,
+            #080910
+        );
 }
 
 .grid{
@@ -48,27 +72,45 @@ body{
     opacity:.18;
 
     background-image:
-        linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
+        linear-gradient(
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        );
 
     background-size:55px 55px;
 
-    transform:perspective(500px) rotateX(60deg);
+    transform:
+        perspective(500px)
+        rotateX(60deg);
 
     animation:gridMove 12s linear infinite;
 }
 
 @keyframes gridMove{
+
     from{
-        transform:perspective(500px) rotateX(60deg) translateY(0);
+        transform:
+            perspective(500px)
+            rotateX(60deg)
+            translateY(0);
     }
 
     to{
-        transform:perspective(500px) rotateX(60deg) translateY(55px);
+        transform:
+            perspective(500px)
+            rotateX(60deg)
+            translateY(55px);
     }
 }
 
-/* PARTICLES */
+/* =====================================================
+   PARTICLES
+===================================================== */
 
 .particles{
     position:absolute;
@@ -77,14 +119,21 @@ body{
 
 .particle{
     position:absolute;
+
     width:5px;
     height:5px;
+
     border-radius:50%;
+
     background:white;
 
-    box-shadow:0 0 15px rgba(255,255,255,.9);
+    box-shadow:
+        0 0 15px rgba(255,255,255,.9);
 
-    animation:floatParticle linear infinite;
+    animation:
+        floatParticle
+        linear
+        infinite;
 }
 
 .particle:nth-child(1){
@@ -136,6 +185,7 @@ body{
 }
 
 @keyframes floatParticle{
+
     0%{
         transform:translateY(80px);
         opacity:0;
@@ -155,20 +205,30 @@ body{
     }
 }
 
-/* DECORATIVE BLOCKS */
+/* =====================================================
+   DECORATIVE BLOCKS
+===================================================== */
 
 .block{
     position:absolute;
+
     width:80px;
     height:80px;
 
-    border:2px solid rgba(255,255,255,.12);
+    border:
+        2px solid
+        rgba(255,255,255,.12);
 
-    background:rgba(255,255,255,.025);
+    background:
+        rgba(255,255,255,.025);
 
     backdrop-filter:blur(4px);
 
-    animation:cubeFloat 7s ease-in-out infinite;
+    animation:
+        cubeFloat
+        7s
+        ease-in-out
+        infinite;
 }
 
 .block.one{
@@ -180,21 +240,27 @@ body{
 .block.two{
     bottom:12%;
     right:10%;
+
     width:110px;
     height:110px;
+
     animation-delay:2s;
+
     transform:rotate(35deg);
 }
 
 .block.three{
     top:18%;
     right:17%;
+
     width:45px;
     height:45px;
+
     animation-delay:4s;
 }
 
 @keyframes cubeFloat{
+
     0%,100%{
         margin-top:0;
         rotate:0deg;
@@ -206,7 +272,9 @@ body{
     }
 }
 
-/* MAIN */
+/* =====================================================
+   MAIN
+===================================================== */
 
 .wrapper{
     position:relative;
@@ -221,7 +289,9 @@ body{
     padding:25px;
 }
 
-/* LOGIN CARD */
+/* =====================================================
+   CARD
+===================================================== */
 
 .login-card{
     width:430px;
@@ -231,9 +301,12 @@ body{
 
     border-radius:24px;
 
-    background:rgba(12,17,28,.82);
+    background:
+        rgba(12,17,28,.82);
 
-    border:1px solid rgba(255,255,255,.12);
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 
     box-shadow:
         0 30px 80px rgba(0,0,0,.65),
@@ -241,22 +314,33 @@ body{
 
     backdrop-filter:blur(25px);
 
-    animation:cardEnter .8s ease forwards;
+    animation:
+        cardEnter
+        .8s
+        ease
+        forwards;
 }
 
 @keyframes cardEnter{
+
     from{
         opacity:0;
-        transform:translateY(40px) scale(.94);
+        transform:
+            translateY(40px)
+            scale(.94);
     }
 
     to{
         opacity:1;
-        transform:translateY(0) scale(1);
+        transform:
+            translateY(0)
+            scale(1);
     }
 }
 
-/* LOGO */
+/* =====================================================
+   LOGO
+===================================================== */
 
 .logo{
     text-align:center;
@@ -264,18 +348,25 @@ body{
 }
 
 .logo-icon{
+
     width:68px;
     height:68px;
 
     margin:auto;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     border-radius:18px;
 
-    background:linear-gradient(135deg,#00d9ff,#6d4aff);
+    background:
+        linear-gradient(
+            135deg,
+            #00d9ff,
+            #6d4aff
+        );
 
     box-shadow:
         0 0 25px rgba(0,217,255,.35),
@@ -285,25 +376,36 @@ body{
 }
 
 .logo-icon span{
+
     font-size:30px;
     font-weight:900;
+
     transform:rotate(5deg);
 }
 
 .logo h1{
+
     margin-top:18px;
+
     font-size:30px;
+
     letter-spacing:5px;
+
     font-weight:900;
 }
 
 .logo p{
+
     color:#8f9aac;
+
     font-size:13px;
+
     margin-top:7px;
 }
 
-/* FORM */
+/* =====================================================
+   FORM
+===================================================== */
 
 .form{
     margin-top:30px;
@@ -315,20 +417,26 @@ body{
 }
 
 .input-group input{
+
     width:100%;
     height:55px;
 
-    padding:0 48px 0 17px;
+    padding:
+        0 48px
+        0 17px;
 
     border-radius:13px;
 
-    border:1px solid rgba(255,255,255,.1);
+    border:
+        1px solid
+        rgba(255,255,255,.1);
 
     outline:none;
 
     color:white;
 
-    background:rgba(255,255,255,.055);
+    background:
+        rgba(255,255,255,.055);
 
     font-size:15px;
 
@@ -340,20 +448,26 @@ body{
 }
 
 .input-group input:focus{
+
     border-color:#00cfff;
 
-    background:rgba(0,207,255,.06);
+    background:
+        rgba(0,207,255,.06);
 
-    box-shadow:0 0 0 4px rgba(0,207,255,.08);
+    box-shadow:
+        0 0 0 4px
+        rgba(0,207,255,.08);
 }
 
 .input-icon{
+
     position:absolute;
 
     right:17px;
     top:50%;
 
-    transform:translateY(-50%);
+    transform:
+        translateY(-50%);
 
     color:#788495;
 
@@ -364,21 +478,32 @@ body{
     cursor:pointer;
 }
 
-/* OPTIONS */
+/* =====================================================
+   OPTIONS
+===================================================== */
 
 .options{
+
     display:flex;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
+
     align-items:center;
 
-    margin:4px 0 22px;
+    margin:
+        4px 0
+        22px;
 
     font-size:12px;
 }
 
 .remember{
+
     display:flex;
+
     align-items:center;
+
     gap:7px;
 
     color:#8f9aac;
@@ -391,7 +516,9 @@ body{
 }
 
 .forgot{
+
     color:#00cfff;
+
     text-decoration:none;
 }
 
@@ -399,10 +526,11 @@ body{
     text-decoration:underline;
 }
 
-/* BUTTON */
+/* =====================================================
+   BUTTON
+===================================================== */
 
 .login-btn{
-    position:relative;
 
     width:100%;
     height:55px;
@@ -421,19 +549,28 @@ body{
 
     letter-spacing:1px;
 
-    overflow:hidden;
+    background:
+        linear-gradient(
+            100deg,
+            #00bfff,
+            #6748ff
+        );
 
-    background:linear-gradient(100deg,#00bfff,#6748ff);
-
-    box-shadow:0 10px 30px rgba(0,150,255,.22);
+    box-shadow:
+        0 10px 30px
+        rgba(0,150,255,.22);
 
     transition:.3s;
 }
 
 .login-btn:hover{
-    transform:translateY(-2px);
 
-    box-shadow:0 15px 40px rgba(0,180,255,.35);
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,180,255,.35);
 }
 
 .login-btn:disabled{
@@ -441,34 +578,16 @@ body{
     cursor:not-allowed;
 }
 
-.loader{
-    display:none;
-
-    width:18px;
-    height:18px;
-
-    margin:auto;
-
-    border:3px solid rgba(255,255,255,.3);
-
-    border-top-color:white;
-
-    border-radius:50%;
-
-    animation:spin .7s linear infinite;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-/* DIVIDER */
+/* =====================================================
+   DIVIDER
+===================================================== */
 
 .divider{
+
     display:flex;
+
     align-items:center;
+
     gap:12px;
 
     margin:25px 0;
@@ -480,26 +599,34 @@ body{
 
 .divider::before,
 .divider::after{
+
     content:"";
 
     height:1px;
 
     flex:1;
 
-    background:rgba(255,255,255,.09);
+    background:
+        rgba(255,255,255,.09);
 }
 
-/* GOOGLE */
+/* =====================================================
+   GOOGLE
+===================================================== */
 
 .google-btn{
+
     width:100%;
     height:50px;
 
-    border:1px solid rgba(255,255,255,.12);
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 
     border-radius:12px;
 
-    background:rgba(255,255,255,.06);
+    background:
+        rgba(255,255,255,.06);
 
     color:white;
 
@@ -521,9 +648,12 @@ body{
 }
 
 .google-btn:hover{
-    background:rgba(255,255,255,.1);
 
-    transform:translateY(-2px);
+    background:
+        rgba(255,255,255,.1);
+
+    transform:
+        translateY(-2px);
 }
 
 .google-btn:disabled{
@@ -532,6 +662,7 @@ body{
 }
 
 .google-icon{
+
     width:20px;
     height:20px;
 
@@ -550,19 +681,25 @@ body{
     font-weight:900;
 }
 
-/* GUEST */
+/* =====================================================
+   GUEST
+===================================================== */
 
 .guest-btn{
+
     width:100%;
     height:50px;
 
     margin-top:12px;
 
-    border:1px solid rgba(255,255,255,.1);
+    border:
+        1px solid
+        rgba(255,255,255,.1);
 
     border-radius:12px;
 
-    background:rgba(255,255,255,.04);
+    background:
+        rgba(255,255,255,.04);
 
     color:#dce2ea;
 
@@ -574,14 +711,20 @@ body{
 }
 
 .guest-btn:hover{
-    background:rgba(255,255,255,.09);
 
-    transform:translateY(-2px);
+    background:
+        rgba(255,255,255,.09);
+
+    transform:
+        translateY(-2px);
 }
 
-/* REGISTER */
+/* =====================================================
+   REGISTER
+===================================================== */
 
 .register{
+
     text-align:center;
 
     margin-top:26px;
@@ -592,6 +735,7 @@ body{
 }
 
 .register a{
+
     color:#00d4ff;
 
     font-weight:700;
@@ -603,14 +747,19 @@ body{
     text-decoration:underline;
 }
 
-/* USER PANEL */
+/* =====================================================
+   USER PANEL
+===================================================== */
 
 .user-panel{
+
     display:none;
+
     text-align:center;
 }
 
 .avatar{
+
     width:75px;
     height:75px;
 
@@ -620,9 +769,13 @@ body{
 
     object-fit:cover;
 
-    border:3px solid #00d9ff;
+    border:
+        3px solid
+        #00d9ff;
 
-    box-shadow:0 0 25px rgba(0,217,255,.35);
+    box-shadow:
+        0 0 25px
+        rgba(0,217,255,.35);
 }
 
 .user-panel h2{
@@ -631,6 +784,7 @@ body{
 }
 
 .user-email{
+
     color:#8f9aac;
 
     font-size:13px;
@@ -641,6 +795,7 @@ body{
 }
 
 .start-btn{
+
     width:100%;
     height:52px;
 
@@ -654,29 +809,41 @@ body{
 
     cursor:pointer;
 
-    background:linear-gradient(100deg,#00bfff,#6748ff);
+    background:
+        linear-gradient(
+            100deg,
+            #00bfff,
+            #6748ff
+        );
 
     margin-bottom:12px;
 }
 
 .logout-btn{
+
     width:100%;
     height:48px;
 
-    border:1px solid rgba(255,255,255,.1);
+    border:
+        1px solid
+        rgba(255,255,255,.1);
 
     border-radius:12px;
 
     color:#dce2ea;
 
-    background:rgba(255,255,255,.04);
+    background:
+        rgba(255,255,255,.04);
 
     cursor:pointer;
 }
 
-/* FOOTER */
+/* =====================================================
+   FOOTER
+===================================================== */
 
 .footer{
+
     text-align:center;
 
     margin-top:22px;
@@ -686,9 +853,12 @@ body{
     font-size:10px;
 }
 
-/* TOAST */
+/* =====================================================
+   TOAST
+===================================================== */
 
 .toast{
+
     position:fixed;
 
     z-index:100;
@@ -696,32 +866,42 @@ body{
     top:25px;
     right:25px;
 
-    max-width:350px;
+    max-width:380px;
 
-    padding:14px 18px;
+    padding:
+        14px 18px;
 
     border-radius:12px;
 
-    background:rgba(15,20,30,.96);
+    background:
+        rgba(15,20,30,.96);
 
-    border:1px solid rgba(0,210,255,.25);
+    border:
+        1px solid
+        rgba(0,210,255,.25);
 
-    box-shadow:0 10px 30px rgba(0,0,0,.4);
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.4);
 
     color:white;
 
     font-size:13px;
 
-    transform:translateX(150%);
+    transform:
+        translateX(150%);
 
     transition:.4s;
 }
 
 .toast.show{
-    transform:translateX(0);
+    transform:
+        translateX(0);
 }
 
-/* RESPONSIVE */
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media(max-width:500px){
 
@@ -746,18 +926,23 @@ body{
         opacity:.5;
     }
 }
+
 </style>
+
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
 
 <div class="game-bg">
 
     <div class="grid"></div>
 
     <div class="particles">
+
         <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
@@ -766,6 +951,7 @@ body{
         <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
+
     </div>
 
     <div class="block one"></div>
@@ -774,7 +960,10 @@ body{
 
 </div>
 
-<!-- MAIN -->
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <main class="wrapper">
 
@@ -794,11 +983,17 @@ body{
 
     </div>
 
-    <!-- LOGIN -->
+
+    <!-- =================================================
+         LOGIN
+    ================================================== -->
 
     <div id="authSection">
 
-        <form class="form" id="loginForm">
+        <form
+            class="form"
+            id="loginForm"
+        >
 
             <div class="input-group">
 
@@ -810,9 +1005,12 @@ body{
                     required
                 >
 
-                <span class="input-icon">@</span>
+                <span class="input-icon">
+                    @
+                </span>
 
             </div>
+
 
             <div class="input-group">
 
@@ -833,6 +1031,7 @@ body{
 
             </div>
 
+
             <div class="options">
 
                 <label class="remember">
@@ -846,6 +1045,7 @@ body{
 
                 </label>
 
+
                 <a
                     href="#"
                     class="forgot"
@@ -856,28 +1056,24 @@ body{
 
             </div>
 
+
             <button
                 class="login-btn"
                 type="submit"
                 id="loginBtn"
             >
-
-                <span id="loginText">
-                    ENTER GAME
-                </span>
-
-                <div
-                    class="loader"
-                    id="loginLoader"
-                ></div>
-
+                ENTER GAME
             </button>
 
         </form>
 
+
         <div class="divider">
             OR
         </div>
+
+
+        <!-- GOOGLE -->
 
         <button
             class="google-btn"
@@ -893,6 +1089,9 @@ body{
 
         </button>
 
+
+        <!-- GUEST -->
+
         <button
             class="guest-btn"
             id="guestBtn"
@@ -900,6 +1099,9 @@ body{
         >
             ⚡ Continue as Guest
         </button>
+
+
+        <!-- REGISTER -->
 
         <div class="register">
 
@@ -916,7 +1118,10 @@ body{
 
     </div>
 
-    <!-- REGISTER -->
+
+    <!-- =================================================
+         REGISTER
+    ================================================== -->
 
     <div
         id="registerSection"
@@ -944,6 +1149,7 @@ body{
 
             </div>
 
+
             <div class="input-group">
 
                 <input
@@ -959,6 +1165,7 @@ body{
                 </span>
 
             </div>
+
 
             <div class="input-group">
 
@@ -979,24 +1186,17 @@ body{
 
             </div>
 
+
             <button
                 class="login-btn"
                 type="submit"
                 id="registerBtn"
             >
-
-                <span id="registerText">
-                    CREATE ACCOUNT
-                </span>
-
-                <div
-                    class="loader"
-                    id="registerLoader"
-                ></div>
-
+                CREATE ACCOUNT
             </button>
 
         </form>
+
 
         <div class="register">
 
@@ -1013,7 +1213,10 @@ body{
 
     </div>
 
-    <!-- USER PANEL -->
+
+    <!-- =================================================
+         USER PANEL
+    ================================================== -->
 
     <div
         class="user-panel"
@@ -1036,12 +1239,14 @@ body{
             id="userEmail"
         ></div>
 
+
         <button
             class="start-btn"
             id="startGame"
         >
             🎮 ENTER NEXORA
         </button>
+
 
         <button
             class="logout-btn"
@@ -1052,6 +1257,7 @@ body{
 
     </div>
 
+
     <div class="footer">
         © 2026 NEXORA GAMING
     </div>
@@ -1060,12 +1266,18 @@ body{
 
 </main>
 
+
 <!-- TOAST -->
 
 <div
     class="toast"
     id="toast"
 ></div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
 <script>
 
@@ -1085,154 +1297,60 @@ const db =
         SUPABASE_KEY
     );
 
+console.log(
+    "NEXORA Supabase initialized."
+);
+
 
 /* =====================================================
    ELEMENTS
 ===================================================== */
 
 const authSection =
-    document.getElementById("authSection");
+    document.getElementById(
+        "authSection"
+    );
 
 const registerSection =
-    document.getElementById("registerSection");
+    document.getElementById(
+        "registerSection"
+    );
 
 const userPanel =
-    document.getElementById("userPanel");
+    document.getElementById(
+        "userPanel"
+    );
 
 const toast =
-    document.getElementById("toast");
+    document.getElementById(
+        "toast"
+    );
 
 
 /* =====================================================
    TOAST
 ===================================================== */
 
-let toastTimer = null;
-
 function showToast(message){
 
     toast.textContent =
         message;
 
-    toast.classList.add("show");
+    toast.classList.add(
+        "show"
+    );
 
-    clearTimeout(toastTimer);
+    setTimeout(
+        () => {
 
-    toastTimer =
-        setTimeout(function(){
+            toast.classList.remove(
+                "show"
+            );
 
-            toast.classList.remove("show");
-
-        },3500);
+        },
+        4000
+    );
 }
-
-
-/* =====================================================
-   GET REDIRECT URL
-===================================================== */
-
-/*
- * This is the URL where Supabase should send the
- * user after Google authentication.
- *
- * IMPORTANT:
- * Add this URL to:
- *
- * Supabase
- * → Authentication
- * → URL Configuration
- * → Redirect URLs
- *
- */
-
-function getRedirectUrl(){
-
-    return window.location.origin +
-           window.location.pathname;
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-document
-.getElementById("loginForm")
-.addEventListener("submit", async function(event){
-
-    event.preventDefault();
-
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password =
-        document
-        .getElementById("loginPassword")
-        .value;
-
-    const button =
-        document.getElementById("loginBtn");
-
-    const text =
-        document.getElementById("loginText");
-
-    const loader =
-        document.getElementById("loginLoader");
-
-    text.style.display = "none";
-    loader.style.display = "block";
-
-    button.disabled = true;
-
-    try{
-
-        const result =
-            await db.auth.signInWithPassword({
-
-                email:email,
-
-                password:password
-
-            });
-
-        if(result.error)
-            throw result.error;
-
-        showToast(
-            "Login successful!"
-        );
-
-        await loadUser(
-            result.data.user
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Login failed."
-        );
-
-    }
-    finally{
-
-        text.style.display = "inline";
-        loader.style.display = "none";
-
-        button.disabled = false;
-
-    }
-
-});
 
 
 /* =====================================================
@@ -1241,65 +1359,178 @@ document
 
 document
 .getElementById("googleBtn")
-.addEventListener("click", async function(){
+.addEventListener(
+    "click",
+    async function(){
 
-    const button = this;
+        const button =
+            document.getElementById(
+                "googleBtn"
+            );
 
-    try{
+        button.disabled =
+            true;
 
-        button.disabled = true;
+        button.innerHTML =
+            "Connecting to Google...";
 
-        const redirectUrl =
-            getRedirectUrl();
 
-        console.log(
-            "Google redirect URL:",
-            redirectUrl
-        );
+        try{
 
-        const result =
+            /*
+             IMPORTANT:
+
+             DO NOT add a Google callback URL here.
+
+             Supabase automatically handles:
+
+             Google
+                ↓
+             Supabase callback
+                ↓
+             Your website
+
+             The Google OAuth redirect URI must be
+             configured in Google Cloud as:
+
+             https://rvzguquaznbsuxvytfyz.supabase.co/auth/v1/callback
+            */
+
+            const {
+                error
+            } =
             await db.auth.signInWithOAuth({
 
-                provider:"google",
-
-                options:{
-
-                    redirectTo:
-                        redirectUrl,
-
-                    queryParams:{
-
-                        access_type:"offline",
-
-                        prompt:"select_account"
-
-                    }
-
-                }
+                provider:
+                    "google"
 
             });
 
-        if(result.error)
-            throw result.error;
+
+            if(error){
+
+                throw error;
+
+            }
+
+        }
+        catch(error){
+
+            console.error(
+                "GOOGLE LOGIN ERROR:",
+                error
+            );
+
+            showToast(
+                "Google login error: " +
+                error.message
+            );
+
+            button.disabled =
+                false;
+
+            button.innerHTML =
+                '<span class="google-icon">G</span> Continue with Google';
+        }
 
     }
-    catch(error){
+);
 
-        console.error(
-            "Google login error:",
-            error
-        );
 
-        showToast(
-            error.message ||
-            "Google login failed."
-        );
+/* =====================================================
+   EMAIL LOGIN
+===================================================== */
 
-        button.disabled = false;
+document
+.getElementById("loginForm")
+.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const email =
+            document
+            .getElementById(
+                "loginEmail"
+            )
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById(
+                "loginPassword"
+            )
+            .value;
+
+
+        const button =
+            document.getElementById(
+                "loginBtn"
+            );
+
+        button.disabled =
+            true;
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await db.auth.signInWithPassword({
+
+                email:
+                    email,
+
+                password:
+                    password
+
+            });
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            showToast(
+                "Login successful!"
+            );
+
+
+            await loadUser(
+                data.user
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "EMAIL LOGIN ERROR:",
+                error
+            );
+
+            showToast(
+                error.message
+            );
+
+        }
+        finally{
+
+            button.disabled =
+                false;
+
+        }
 
     }
-
-});
+);
 
 
 /* =====================================================
@@ -1308,17 +1539,20 @@ document
 
 document
 .getElementById("createAccount")
-.addEventListener("click",function(event){
+.addEventListener(
+    "click",
+    function(event){
 
-    event.preventDefault();
+        event.preventDefault();
 
-    authSection.style.display =
-        "none";
+        authSection.style.display =
+            "none";
 
-    registerSection.style.display =
-        "block";
+        registerSection.style.display =
+            "block";
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -1327,17 +1561,20 @@ document
 
 document
 .getElementById("backToLogin")
-.addEventListener("click",function(event){
+.addEventListener(
+    "click",
+    function(event){
 
-    event.preventDefault();
+        event.preventDefault();
 
-    registerSection.style.display =
-        "none";
+        registerSection.style.display =
+            "none";
 
-    authSection.style.display =
-        "block";
+        authSection.style.display =
+            "block";
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -1346,194 +1583,128 @@ document
 
 document
 .getElementById("registerForm")
-.addEventListener("submit",async function(event){
+.addEventListener(
+    "submit",
+    async function(event){
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const username =
-        document
-        .getElementById("registerUsername")
-        .value
-        .trim();
 
-    const email =
-        document
-        .getElementById("registerEmail")
-        .value
-        .trim();
+        const username =
+            document
+            .getElementById(
+                "registerUsername"
+            )
+            .value
+            .trim();
 
-    const password =
-        document
-        .getElementById("registerPassword")
-        .value;
 
-    const button =
-        document.getElementById("registerBtn");
+        const email =
+            document
+            .getElementById(
+                "registerEmail"
+            )
+            .value
+            .trim();
 
-    const text =
-        document.getElementById("registerText");
 
-    const loader =
-        document.getElementById("registerLoader");
+        const password =
+            document
+            .getElementById(
+                "registerPassword"
+            )
+            .value;
 
-    text.style.display = "none";
-    loader.style.display = "block";
 
-    button.disabled = true;
+        const button =
+            document.getElementById(
+                "registerBtn"
+            );
 
-    try{
+        button.disabled =
+            true;
 
-        const result =
+
+        try{
+
+            const {
+                data,
+                error
+            } =
             await db.auth.signUp({
 
-                email:email,
+                email:
+                    email,
 
-                password:password,
+                password:
+                    password,
 
                 options:{
 
                     data:{
-                        username:username
-                    },
 
-                    emailRedirectTo:
-                        getRedirectUrl()
+                        username:
+                            username
+
+                    }
 
                 }
 
             });
 
-        if(result.error)
-            throw result.error;
 
-        const user =
-            result.data.user;
+            if(error){
 
-        const session =
-            result.data.session;
+                throw error;
 
-        if(user && session){
+            }
 
-            await saveProfile(
-                user,
-                username,
-                "email"
-            );
 
-            await loadUser(user);
+            if(
+                data.user &&
+                data.session
+            ){
+
+                await loadUser(
+                    data.user
+                );
+
+            }
+            else{
+
+                showToast(
+                    "Account created! Check your email to verify it."
+                );
+
+                registerSection.style.display =
+                    "none";
+
+                authSection.style.display =
+                    "block";
+            }
 
         }
-        else{
-
-            showToast(
-                "Account created! Check your email to verify your account."
-            );
-
-            registerSection.style.display =
-                "none";
-
-            authSection.style.display =
-                "block";
-
-        }
-
-    }
-    catch(error){
-
-        console.error(
-            "Registration error:",
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Registration failed."
-        );
-
-    }
-    finally{
-
-        text.style.display = "inline";
-        loader.style.display = "none";
-
-        button.disabled = false;
-
-    }
-
-});
-
-
-/* =====================================================
-   SAVE PROFILE
-===================================================== */
-
-async function saveProfile(
-    user,
-    username = null,
-    provider = "email"
-){
-
-    if(!user)
-        return;
-
-    const metadata =
-        user.user_metadata || {};
-
-    const finalUsername =
-        username ||
-        metadata.username ||
-        metadata.full_name ||
-        metadata.name ||
-        (
-            user.email
-            ? user.email.split("@")[0]
-            : "Player"
-        );
-
-    const avatar =
-        metadata.avatar_url ||
-        metadata.picture ||
-        null;
-
-    try{
-
-        const result =
-            await db
-            .from("profiles")
-            .upsert({
-
-                id:user.id,
-
-                email:user.email || null,
-
-                username:finalUsername,
-
-                avatar_url:avatar,
-
-                provider:provider
-
-            });
-
-        if(result.error){
+        catch(error){
 
             console.error(
-                "Profile save error:",
-                result.error
+                "REGISTER ERROR:",
+                error
             );
+
+            showToast(
+                error.message
+            );
+
+        }
+        finally{
+
+            button.disabled =
+                false;
 
         }
 
     }
-    catch(error){
-
-        console.error(
-            "Profile exception:",
-            error
-        );
-
-    }
-
-}
+);
 
 
 /* =====================================================
@@ -1545,50 +1716,51 @@ async function loadUser(user){
     if(!user)
         return;
 
+
     const metadata =
         user.user_metadata || {};
 
-    const provider =
-        user.app_metadata?.provider ||
-        "email";
-
-    await saveProfile(
-        user,
-        null,
-        provider
-    );
 
     const username =
         metadata.username ||
         metadata.full_name ||
         metadata.name ||
-        (
-            user.email
-            ? user.email.split("@")[0]
-            : "Player"
-        );
+        user.email?.split("@")[0] ||
+        "Player";
+
 
     const avatar =
         metadata.avatar_url ||
         metadata.picture ||
         "https://ui-avatars.com/api/?name=" +
-        encodeURIComponent(username) +
-        "&background=00bfff&color=fff";
+        encodeURIComponent(
+            username
+        );
+
 
     document
-    .getElementById("userName")
+    .getElementById(
+        "userName"
+    )
     .textContent =
         username;
 
+
     document
-    .getElementById("userEmail")
+    .getElementById(
+        "userEmail"
+    )
     .textContent =
         user.email || "";
 
+
     document
-    .getElementById("userAvatar")
+    .getElementById(
+        "userAvatar"
+    )
     .src =
         avatar;
+
 
     authSection.style.display =
         "none";
@@ -1598,7 +1770,6 @@ async function loadUser(user){
 
     userPanel.style.display =
         "block";
-
 }
 
 
@@ -1608,45 +1779,50 @@ async function loadUser(user){
 
 document
 .getElementById("logoutBtn")
-.addEventListener("click",async function(){
+.addEventListener(
+    "click",
+    async function(){
 
-    try{
+        try{
 
-        const result =
+            const {
+                error
+            } =
             await db.auth.signOut();
 
-        if(result.error)
-            throw result.error;
 
-        userPanel.style.display =
-            "none";
+            if(error){
 
-        registerSection.style.display =
-            "none";
+                throw error;
 
-        authSection.style.display =
-            "block";
+            }
 
-        showToast(
-            "You have been logged out."
-        );
+
+            userPanel.style.display =
+                "none";
+
+            registerSection.style.display =
+                "none";
+
+            authSection.style.display =
+                "block";
+
+
+            showToast(
+                "You have been logged out."
+            );
+
+        }
+        catch(error){
+
+            showToast(
+                error.message
+            );
+
+        }
 
     }
-    catch(error){
-
-        console.error(
-            "Logout error:",
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Logout failed."
-        );
-
-    }
-
-});
+);
 
 
 /* =====================================================
@@ -1655,13 +1831,16 @@ document
 
 document
 .getElementById("guestBtn")
-.addEventListener("click",function(){
+.addEventListener(
+    "click",
+    function(){
 
-    showToast(
-        "Welcome, Guest Player!"
-    );
+        showToast(
+            "Welcome, Guest Player!"
+        );
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -1670,60 +1849,65 @@ document
 
 document
 .getElementById("forgotPassword")
-.addEventListener("click",async function(event){
+.addEventListener(
+    "click",
+    async function(event){
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
 
-    if(!email){
+        const email =
+            document
+            .getElementById(
+                "loginEmail"
+            )
+            .value
+            .trim();
 
-        showToast(
-            "Enter your email first."
-        );
 
-        return;
-    }
+        if(!email){
 
-    try{
-
-        const result =
-            await db.auth
-            .resetPasswordForEmail(
-                email,
-                {
-                    redirectTo:
-                        getRedirectUrl()
-                }
+            showToast(
+                "Enter your email first."
             );
 
-        if(result.error)
-            throw result.error;
+            return;
+        }
 
-        showToast(
-            "Password reset email sent!"
-        );
+
+        try{
+
+            const {
+                error
+            } =
+            await db.auth
+            .resetPasswordForEmail(
+                email
+            );
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            showToast(
+                "Password reset email sent!"
+            );
+
+        }
+        catch(error){
+
+            showToast(
+                error.message
+            );
+
+        }
 
     }
-    catch(error){
-
-        console.error(
-            "Password reset error:",
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Unable to send reset email."
-        );
-
-    }
-
-});
+);
 
 
 /* =====================================================
@@ -1732,13 +1916,16 @@ document
 
 document
 .getElementById("startGame")
-.addEventListener("click",function(){
+.addEventListener(
+    "click",
+    function(){
 
-    showToast(
-        "Game dashboard coming next..."
-    );
+        showToast(
+            "NEXORA game dashboard coming next!"
+        );
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -1746,33 +1933,49 @@ document
 ===================================================== */
 
 document
-.getElementById("toggleLoginPassword")
-.addEventListener("click",function(){
+.getElementById(
+    "toggleLoginPassword"
+)
+.addEventListener(
+    "click",
+    function(){
 
-    const input =
-        document.getElementById("loginPassword");
+        const input =
+            document.getElementById(
+                "loginPassword"
+            );
 
-    input.type =
-        input.type === "password"
-        ? "text"
-        : "password";
 
-});
+        input.type =
+            input.type === "password"
+            ? "text"
+            : "password";
+
+    }
+);
 
 
 document
-.getElementById("toggleRegisterPassword")
-.addEventListener("click",function(){
+.getElementById(
+    "toggleRegisterPassword"
+)
+.addEventListener(
+    "click",
+    function(){
 
-    const input =
-        document.getElementById("registerPassword");
+        const input =
+            document.getElementById(
+                "registerPassword"
+            );
 
-    input.type =
-        input.type === "password"
-        ? "text"
-        : "password";
 
-});
+        input.type =
+            input.type === "password"
+            ? "text"
+            : "password";
+
+    }
+);
 
 
 /* =====================================================
@@ -1780,24 +1983,21 @@ document
 ===================================================== */
 
 db.auth.onAuthStateChange(
-    async function(event,session){
+    function(
+        event,
+        session
+    ){
 
         console.log(
-            "Auth event:",
+            "AUTH EVENT:",
             event
         );
 
-        if(session && session.user){
 
-            setTimeout(
-                async function(){
+        if(session?.user){
 
-                    await loadUser(
-                        session.user
-                    );
-
-                },
-                0
+            loadUser(
+                session.user
             );
 
         }
@@ -1814,26 +2014,26 @@ async function checkSession(){
 
     try{
 
-        const result =
-            await db.auth.getSession();
+        const {
+            data,
+            error
+        } =
+        await db.auth.getSession();
 
-        if(result.error){
 
-            console.error(
-                "Session error:",
-                result.error
-            );
+        if(error){
 
-            return;
+            throw error;
+
         }
 
-        const session =
-            result.data?.session;
 
-        if(session?.user){
+        if(
+            data?.session?.user
+        ){
 
             await loadUser(
-                session.user
+                data.session.user
             );
 
         }
@@ -1842,31 +2042,32 @@ async function checkSession(){
     catch(error){
 
         console.error(
-            "Check session error:",
+            "SESSION ERROR:",
             error
         );
 
     }
-
 }
 
 
 /* =====================================================
-   PARTICLE RANDOM DELAYS
+   RANDOM PARTICLE DELAYS
 ===================================================== */
 
 document
 .querySelectorAll(".particle")
-.forEach(function(particle){
+.forEach(
+    function(particle){
 
-    particle.style.animationDelay =
-        `${Math.random() * 6}s`;
+        particle.style.animationDelay =
+            `${Math.random()*6}s`;
 
-});
+    }
+);
 
 
 /* =====================================================
-   START APPLICATION
+   START
 ===================================================== */
 
 checkSession();
@@ -1875,3 +2076,4 @@ checkSession();
 
 </body>
 </html>
+```
